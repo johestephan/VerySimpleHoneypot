@@ -18,8 +18,19 @@ import smtpd
 import asyncore
 import sqlite3
 import time
-import pyclamav
+import pyclamd
 from geoip import geolite2
+
+def clamalyze(data):
+	# function to handle check for malware
+	# uses clamd and data as input stream
+	try:
+		clamd = pyclamd.ClamdAgnostic()
+		ret = clamd.scan_stream(data)['stream']
+		return ret
+	except pyclamd.ConnectionError:
+		print 'error connecting to clamd'
+	
 
 class IDS_SMTPServer(smtpd.SMTPServer):
     
@@ -46,17 +57,8 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	print 'Message addressed from:', mailfrom
         print 'Message addressed to  :', rcpttos
         print 'Message length        :', len(data)
-	print 'Message store location:', filename
-	# data to be written to tmp folder and pyclamav scaning afterwards.
-	tempfile = open(filename, 'w')
-	tempfile.write(data)
-	tempfile.close()
-	try:
-		ret=pyclamav.scanfile(filename)
-	except ValueError:
-		print 'Error occurd ', pyclamav.error
-	except TypeError:
-		print 'Error occurd ', pyclamav.error
+	# clamav scan
+	ret = clamalyze(data) 
 	print 'clamav		     :', ret
 	
 	# Open sqlite db file and send data to it
