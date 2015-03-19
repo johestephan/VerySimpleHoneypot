@@ -30,6 +30,8 @@ def clamalyze(data):
 		return ret
 	except pyclamd.ConnectionError:
 		print 'error connecting to clamd'
+	except:
+		return ('nope','nope')
 	
 
 class IDS_SMTPServer(smtpd.SMTPServer):
@@ -83,6 +85,6 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	return
 
 print 'Server ready for connections...'
-server = IDS_SMTPServer(('0.0.0.0', 1025), None)
+server = IDS_SMTPServer(('0.0.0.0', 25), None)
 
 asyncore.loop()
