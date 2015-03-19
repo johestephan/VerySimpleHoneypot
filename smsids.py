@@ -51,7 +51,12 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	tempfile = open(filename, 'w')
 	tempfile.write(data)
 	tempfile.close()
-	ret=pyclamav.scanfile(filename)
+	try:
+		ret=pyclamav.scanfile(filename)
+	except ValueError:
+		print 'Error occurd ', pyclamav.error
+	except TypeError:
+		print 'Error occurd ', pyclamav.error
 	print 'clamav		     :', ret
 	
 	# Open sqlite db file and send data to it
