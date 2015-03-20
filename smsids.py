@@ -21,6 +21,22 @@ import time
 import pyclamd
 from geoip import geolite2
 
+def logit(data):
+	#
+	#
+	try:
+		conn = sqlite3.connect('smsids.db', isolation_level=None)
+		c = conn.cursor()
+		c.execute('''INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?);''', logrow) 
+		conn.commit
+		conn.close
+		return 1
+	except:
+		print "SQL error"
+		return 0
+
+		
+
 def clamalyze(data):
 	# function to handle check for malware
 	# uses clamd and data as input stream
