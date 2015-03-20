@@ -22,17 +22,16 @@ import pyclamd
 from geoip import geolite2
 
 def logit(data):
-	#
+	# function to log to sqlite db
 	#
 	try:
-		conn = sqlite3.connect('smsids.db', isolation_level=None)
-		c = conn.cursor()
-		c.execute('''INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?);''', logrow) 
-		conn.commit
-		conn.close
+		conn = sqlite3.connect('./smsids.db')
+		conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?); ''', data) 
+		conn.commit()
+		conn.close()
 		return 1
 	except:
-		print "SQL error"
+		print "SQL error", sqlite3.Error
 		return 0
 
 		
@@ -92,12 +91,8 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	# data	- the data itself
 	# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 	# ClamAv return - what ClamAV has found
-	conn = sqlite3.connect('smsids.db', isolation_level=None)
-	c = conn.cursor()
-	logrow= (Now,time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],len(data),data,filename,ret[1])
-	c.execute('''INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?);''', logrow) 
-	conn.commit
-	conn.close
+	logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
+	logit(logrow)
 	return
 
 print 'Server ready for connections...'
