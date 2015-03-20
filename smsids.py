@@ -92,7 +92,7 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 	# ClamAv return - what ClamAV has found
 	logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
-	logit(logrow)
+	print 'Logged?		:', logit(logrow)
 	return
 
 print 'Server ready for connections...'
