@@ -10,7 +10,10 @@ Simple SMTP fetch all IDS and analyzer
 * pyclamd (needs clamav-daemon to be installed)
 * geolite2 (needs GeoIP to be installed)
 
-all modules are normally installes using pip
+all modules are normally installed using pip, like
+'''
+pip install --upgrade pyclamd
+'''
 
 ## How does it work
 The script opens a connection and SMTP Server on port 1025 (for tests, should be changed to 25)
@@ -19,4 +22,5 @@ informations into an sqlite database.
 It was created to help analyze SPAM and malware which is sended per mail.
 
 ## Status
-* 03/18/2015 - switched from pyclamav to pyclamd, no scanning stream instead of file
+* 03/18/2015 - switched from pyclamav to pyclamd, now scanning stream instead of file
+* 03/20/2015 - pushed sqlite3 logging into own function, bug fixing
