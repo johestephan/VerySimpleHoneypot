@@ -20,6 +20,7 @@ import sqlite3
 import time
 import pyclamd
 from geoip import geolite2
+import re
 
 def logit(data):
 	# function to log to sqlite db
@@ -31,7 +32,6 @@ def logit(data):
 		conn.close()
 		return 1
 	except:
-		print "SQL error", sqlite3.Error
 		return 0
 
 		
@@ -52,50 +52,54 @@ def clamalyze(data):
 class IDS_SMTPServer(smtpd.SMTPServer):
     
     def process_message(self, peer, mailfrom, rcpttos, data):
-	# Creating timestamp now, this represents ID and filename
-	Now=time.time()
-	filename= "./tmp/"+ str(Now) + ".txt"
+	# we need a whitelist, I finaly found out
+	whitelist = "osml|js"
+	i = re.search(whitelist,rcpttos[0]) # Whitelabeld IP's
+	if ( i is None):
+		# Creating timestamp now, this represents ID and filename
+		Now=time.time()
+		filename= "./tmp/"+ str(Now) + ".txt"
 
-	# standard console output
-	# includes some basic features which are also written to sqlite
-  	print 'ID		      ', Now
-	print 'Timestamp	      ', time.strftime('%X %x %Z')
-        print 'Receiving message from:', peer[0]
-        match = geolite2.lookup(peer[0])
-	# GeoIP return must be check against None. Cause local IP addresses would cause an NoneObject Type and crash
-	# the script.
-	if match is not None:
-		Country = match.country
-	else:
-		Country = 'Unknown'
+		# standard console output
+		# includes some basic features which are also written to sqlite
+  		print 'ID		      ', Now
+		print 'Timestamp	      ', time.strftime('%X %x %Z')
+        	print 'Receiving message from:', peer[0]
+        	match = geolite2.lookup(peer[0])
+		# GeoIP return must be check against None. Cause local IP addresses would cause an NoneObject Type and crash
+		# the script.
+		if match is not None:
+			Country = match.country
+		else:
+			Country = 'Unknown'
 
-	print 'Country		: ', Country
+		print 'Country		: ', Country
 
-	print 'Message addressed from:', mailfrom
-        print 'Message addressed to  :', rcpttos
-        print 'Message length        :', len(data)
-	# clamav scan
-	ret = clamalyze(data) 
-	print 'clamav		     :', ret
+		print 'Message addressed from:', mailfrom
+        	print 'Message addressed to  :', rcpttos[0]
+        	print 'Message length        :', len(data)
+		# clamav scan
+		ret = clamalyze(data) 
+		print 'clamav		     :', ret
 	
-	# Open sqlite db file and send data to it
-	# Values are like
-	# ID - represented via Unix-Timestamp
-	# time - via current time
-	# IP - the remote IP of the sender, peer[0]
-	# port - port used by sender , peer[1]
-	# Country Code - via GeoIP match.country
-	# mailfrom - the sender email addy
-	# rcpttos - to whom the mail was send
-	# len(data) - the length (chars) of the origin data msg
-	# data	- the data itself
-	# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
-	# ClamAv return - what ClamAV has found
-	logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
-	print 'Logged?		:', logit(logrow)
-	return
+		# Open sqlite db file and send data to it
+		# Values are like
+		# ID - represented via Unix-Timestamp
+		# time - via current time
+		# IP - the remote IP of the sender, peer[0]
+		# port - port used by sender , peer[1]
+		# Country Code - via GeoIP match.country
+		# mailfrom - the sender email addy
+		# rcpttos - to whom the mail was send
+		# len(data) - the length (chars) of the origin data msg
+		# data	- the data itself
+		# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
+		# ClamAv return - what ClamAV has found
+		logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
+		print 'Logged?		:', logit(logrow)
+		return
 
 print 'Server ready for connections...'
-server = IDS_SMTPServer(('0.0.0.0', 25), None)
+server = IDS_SMTPServer(('0.0.0.0', 1025), None)
 
 asyncore.loop()
