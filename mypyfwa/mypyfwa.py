@@ -12,13 +12,14 @@ from optparse import OptionParser
 from geoip import geolite2
 import sqlite3
 
-
 def sqllogit(data):
 	try:
+		# logging to sqlite3
 		conn = sqlite3.connect('./mypyfwa.db')
 		conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?); ''', data) 
 		conn.commit()
 		conn.close()
+
 		return 1
 	except:
 		return 0
@@ -27,7 +28,7 @@ def sqllogit(data):
 def GETcheck(request, IP, CC):
     try:
 	weightcounter = request.count("/")
-	if weightcounter > 2:
+	if weightcounter > 7:
 		print str(datetime.datetime.now()) + " " + request + " RecursiveCounter: " + str(weightcounter) + " Blocked: " + IP
                 sqllogit( (str(datetime.datetime.now()),request,IP,CC,"Path") )
 		return True
