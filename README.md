@@ -1,6 +1,11 @@
 README - SendMeSpamIDS.py
 ====
-Simple SMTP fetch all IDS and analyzer
+IDS for analyzing mail and apache data
+
+* mypyfwa - apache anayzer ./mypyfwa
+* smsids - smtp daemon, accept all ./smsids
+* virustotal - uploader and checker for virustotal ./virustotal
+
 
 ## Modules needed
 * smtpd
@@ -9,6 +14,9 @@ Simple SMTP fetch all IDS and analyzer
 * time
 * pyclamd (needs clamav-daemon to be installed)
 * geolite2 (needs GeoIP to be installed)
+* logger
+* sys
+* optParser
 
 all modules are normally installed using pip, like
 '''
@@ -24,3 +32,4 @@ It was created to help analyze SPAM and malware which is sended per mail.
 ## Status
 * 03/18/2015 - switched from pyclamav to pyclamd, now scanning stream instead of file
 * 03/20/2015 - pushed sqlite3 logging into own function, bug fixing
+* 04/22/2015 - added syslog output, what is now default (-l option to enable sqllog)
