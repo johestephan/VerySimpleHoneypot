@@ -11,6 +11,8 @@ import datetime
 from optparse import OptionParser
 from geoip import geolite2
 import sqlite3
+sys.path.append('../modules/')
+import syslogit
 
 def sqllogit(data):
 	try:
@@ -19,7 +21,8 @@ def sqllogit(data):
 		conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?); ''', data) 
 		conn.commit()
 		conn.close()
-
+		
+		print syslogit.logit("mypyfwa", data)
 		return 1
 	except:
 		return 0
