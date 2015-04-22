@@ -3,7 +3,7 @@ import logging.handlers
 
 def logit(AGENT, data):
 	try:
-		sm = logging.getLogger("smsids")
+		sm = logging.getLogger(AGENT)
 		sm.setLevel(logging.INFO)
 		h = logging.handlers.SysLogHandler(address = '/dev/log')
 		sm.addHandler(h)
