@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from optparse import OptionParser
+import sys
 import smtpd
 import asyncore
 import sqlite3
@@ -21,21 +23,28 @@ import time
 import pyclamd
 from geoip import geolite2
 import re
+sys.path.append('../modules/')
+import syslogit
 
 def logit(data):
 	# function to log to sqlite db
 	#
 	try:
-		conn = sqlite3.connect('./smsids.db')
-		conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?); ''', data) 
-		conn.commit()
-		conn.close()
+
+		if (options.syslog):
+			print "hello"
+			print syslogit.logit("smsids", data)
+		else:
+			# logging to sqlite3
+			conn = sqlite3.connect('./smsids.db')
+			conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?); ''', data) 
+			conn.commit()
+			conn.close()
+
 		return 1
 	except:
 		return 0
-
 		
-
 def clamalyze(data):
 	# function to handle check for malware
 	# uses clamd and data as input stream
@@ -95,11 +104,22 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		# data	- the data itself
 		# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 		# ClamAv return - what ClamAV has found
-		logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
+		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
+		logrow = ( peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),ret[1]) 
 		print 'Logged?		:', logit(logrow)
 		return
 
+parser = OptionParser()
+parser.add_option("-p", "--port", dest="port",
+		  help="which port should be used , default 25", type=int, metavar="PORT", default=25)
+parser.add_option("-l", "--logging",action="store_false", default=True, dest="syslog",
+		  help="if set, old sqlite logging is used")
+
+
+(options, args) = parser.parse_args()
+
+
 print 'Server ready for connections...'
-server = IDS_SMTPServer(('0.0.0.0', 25), None)
+server = IDS_SMTPServer(('0.0.0.0', options.port), None)
 
 asyncore.loop()

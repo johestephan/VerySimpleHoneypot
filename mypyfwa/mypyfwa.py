@@ -14,15 +14,17 @@ import sqlite3
 sys.path.append('../modules/')
 import syslogit
 
-def sqllogit(data):
+def logit(data):
 	try:
-		# logging to sqlite3
-		conn = sqlite3.connect('./mypyfwa.db')
-		conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?); ''', data) 
-		conn.commit()
-		conn.close()
 		
-		print syslogit.logit("mypyfwa", data)
+		if (options.syslog):
+			print syslogit.logit("mypyfwa", data)
+		else:
+			# logging to sqlite3
+			conn = sqlite3.connect('./mypyfwa.db')
+			conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?); ''', data) 
+			conn.commit()
+			conn.close()
 		return 1
 	except:
 		return 0
@@ -33,7 +35,7 @@ def GETcheck(request, IP, CC):
 	weightcounter = request.count("/")
 	if weightcounter > 7:
 		print str(datetime.datetime.now()) + " " + request + " RecursiveCounter: " + str(weightcounter) + " Blocked: " + IP
-                sqllogit( (str(datetime.datetime.now()),request,IP,CC,"Path") )
+                logit( (str(datetime.datetime.now()),request,IP,CC,"Path") )
 		return True
 	else:
 		return False
@@ -60,10 +62,10 @@ def GETanalyzer(request, line, IP, CC):
 	if weightcounter > 1:
 	    if re.match(r"select (?:[^;]|(?:'.*?'))* from", request) is not None:
 	        print str(datetime.datetime.now()) + " " + request + " InjectCounter: " + str(weightcounter) + " Blocked: " + IP
-            	sqllogit( (str(datetime.datetime.now()),request,IP,CC,"SQLinjection") )
+            	logit( (str(datetime.datetime.now()),request,IP,CC,"SQLinjection") )
  	if weightcounter2 > 1:
             print str(datetime.datetime.now()) + " " + line + " InjectCounter: " + str(weightcounter) + " Blocked: " + IP
-            sqllogit( (str(datetime.datetime.now()),line,IP,CC,"SHELLinjection") )
+            logit( (str(datetime.datetime.now()),line,IP,CC,"SHELLinjection") )
 
 	if ( weightcounter > 1) or (weightcounter2 > 1):		
 	    return True
@@ -86,7 +88,7 @@ def HEADERanalyzer(line, IP, CC):
 		logstring += " Matched Rule: " + str(m.group(0)) 
 		print logstring
 		xcounter += 1
-       		sqllogit( (str(datetime.datetime.now()),Client,IP,CC,"Scanner") )
+       		logit( (str(datetime.datetime.now()),Client,IP,CC,"Scanner") )
 		
 	return xcounter
     except:
@@ -105,6 +107,8 @@ parser.add_option("-w", "--whitelist", dest="whitelist", default="./conf.d/IPWhi
 		  help="path to Whitelist, default values are Hardcoded", metavar="FILE")
 parser.add_option("-s", "--inputstream", dest="streamsource",
 		  help="Apache Log file to follow stream", metavar="FILE")
+parser.add_option("-l", "--logging",action="store_false", default=True, dest="syslog",
+		  help="if set, old sqlite logging is used")
 
 
 (options, args) = parser.parse_args()
