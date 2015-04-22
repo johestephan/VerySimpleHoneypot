@@ -32,8 +32,7 @@ def logit(data):
 	try:
 
 		if (options.syslog):
-			print "hello"
-			print syslogit.logit("smsids", data)
+			print syslogit.logit("[smsids]", data)
 		else:
 			# logging to sqlite3
 			conn = sqlite3.connect('./smsids.db')
@@ -105,7 +104,7 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 		# ClamAv return - what ClamAV has found
 		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
-		logrow = ( peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),ret[1]) 
+		logrow = ( peer[0], Country, str(mailfrom),str(rcpttos[0]),str(len(data)),ret[1]) 
 		print 'Logged?		:', logit(logrow)
 		return
 
