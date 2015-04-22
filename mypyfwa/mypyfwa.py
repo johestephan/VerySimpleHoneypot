@@ -18,7 +18,7 @@ def logit(data):
 	try:
 		
 		if (options.syslog):
-			print syslogit.logit("mypyfwa", data)
+			print syslogit.logit("[mypyfwa]", data)
 		else:
 			# logging to sqlite3
 			conn = sqlite3.connect('./mypyfwa.db')
