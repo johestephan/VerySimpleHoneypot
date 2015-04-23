@@ -3,6 +3,7 @@ import logging.handlers
 
 def logit(AGENT, data):
 	try:
+		data = map(str.strip, data)
 		sm = logging.getLogger(AGENT)
 		sm.setLevel(logging.INFO)
 		h = logging.handlers.SysLogHandler(address = '/dev/log')
