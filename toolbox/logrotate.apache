@@ -1,0 +1,21 @@
+/var/log/apache2/*.log {
+	daily
+	missingok
+	rotate 52
+	compress
+	delaycompress
+	notifempty
+	create 640 root adm
+	sharedscripts
+	postrotate
+		/etc/init.d/apache2 reload > /dev/null
+		cd /home/jstephan/mypyapachefw
+		 python mypyfwa.py -f ./thislog2 -s /var/log/apache2/access.log.1 -i 0 > /tmp/today ; python ../sendmgmail.py /tmp/today
+
+	endscript
+	prerotate
+		if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+			run-parts /etc/logrotate.d/httpd-prerotate; \
+		fi; \
+	endscript
+}
