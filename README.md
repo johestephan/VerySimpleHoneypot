@@ -19,9 +19,15 @@ IDS for analyzing mail and apache data
 * optParser
 
 all modules are normally installed using pip, like
+
 '''
 pip install --upgrade pyclamd
 '''
+
+## Toolbox
+* added ./toolbox folder
+* sendviagmail.py - little script to send emails via gmail
+* logrotate.apache - entry from my logrotate, mailscript is used here
 
 ## How does it work
 The script opens a connection and SMTP Server on port 1025 (for tests, should be changed to 25)
