@@ -141,6 +141,11 @@ logf = open(options.filename,'a')
 sys.stdout = logf
 recent = list()
 counter = 0
+
+injectcounter = 0
+getcounter = 0
+headercounter = 0
+
         
 if (options.streamsource is not None):
 	source = open(options.streamsource,'r')
@@ -158,13 +163,15 @@ for line in source:
     iires = re.search(whitelist,IP) 
     if ( iires is None ) :
 	Request = line.split('"')[1].lower()
-    	counter += HEADERanalyzer(line, IP, CC)
-    	counter += GETanalyzer(Request, line,  IP, CC)
-    	counter += GETcheck(Request, IP, CC)  
+    	headercounter += HEADERanalyzer(line, IP, CC)
+    	injectcounter += GETanalyzer(Request, line,  IP, CC)
+    	getcounter += GETcheck(Request, IP, CC)  
     
     
 logf.close()
 sys.stdout = sys.__stdout__
 
-print "Logged " + str(counter) + " Lines"
+print "Logged " + str(headercounter) + " Lines of bad headers"
+print "Logged " + str(injectcounter) + " Lines of possible injections"
+print "Logged " + str(getcounter) + " Lines of strange headers "
   
