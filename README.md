@@ -39,3 +39,4 @@ It was created to help analyze SPAM and malware which is sended per mail.
 * 03/18/2015 - switched from pyclamav to pyclamd, now scanning stream instead of file
 * 03/20/2015 - pushed sqlite3 logging into own function, bug fixing
 * 04/22/2015 - added syslog output, what is now default (-l option to enable sqllog)
+* 05/07/2015 - added long verbose output for mailsending, added length analyzer for request
