@@ -37,6 +37,10 @@ def GETcheck(request, IP, CC):
 		print str(datetime.datetime.now()) + " " + request + " RecursiveCounter: " + str(weightcounter) + " Blocked: " + IP
                 logit( (str(datetime.datetime.now()),request,IP,CC,"Path") )
 		return True
+	elif len(request) > 60:
+		print str(datetime.datetime.now()) + " " + request + " LenCounter: " + str(weightcounter) + " Blocked: " + IP
+                logit( (str(datetime.datetime.now()),request,IP,CC,"Length") )
+                return True
 	else:
 		return False
     except:
