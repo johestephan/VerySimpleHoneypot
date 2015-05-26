@@ -4,6 +4,7 @@ import simplejson
 import urllib
 import urllib2
 from optparse import OptionParser
+import os.path
 
 parser = OptionParser()
 parser.add_option("-u", "--url", dest="scanurl",
@@ -13,7 +14,9 @@ parser.add_option("-u", "--url", dest="scanurl",
 
 
 url = "https://www.virustotal.com/vtapi/v2/url/scan"
-with open ("./apikey","r") as myapifile:
+HOMEfolder = os.path.dirname(os.path.realpath(__file__))
+
+with open (HOMEfolder + "/apikey","r") as myapifile:
 	apikey = myapifile.readline().strip()
 
 
