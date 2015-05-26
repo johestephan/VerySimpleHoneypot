@@ -1,0 +1,82 @@
+#!/usr/bin/python
+
+import simplejson
+import urllib
+import urllib2
+from optparse import OptionParser
+import json
+import hashlib
+import os.path
+
+def send_request(url, scanurl, token):
+	try:
+		furl = url + scanurl
+		htoken = "Bearer "+ token
+		headers = {'Authorization': htoken,}
+		request = urllib2.Request(furl, None, headers)
+		data = urllib2.urlopen(request)
+		print data.read()
+		return 1
+	except urllib2.HTTPError, e:
+		print str(e)
+		return 0
+
+def get_token():
+	url = "https://xforce-api.mybluemix.net:443/auth/anonymousToken"
+	data = urllib2.urlopen(url)
+	t = json.load(data)
+	tokenf = open(HOMEfolder + "/token","w")
+	tokenf.write(str(t['token']))
+	return True 
+
+
+def send_md5(filename, url, token):
+	try:
+		md5 = hashlib.md5(filename.hexdigest())
+		furl = url + md5
+		request = urllib2.Request(furl)
+		htoken = "BEARER "+ token
+		request.add_header('credentials', htoken)
+		data = urllib2.urlopen(request)
+		return 1
+	except  urllib2.HTTPError, e:
+		print str(e)
+		return 0
+
+parser = OptionParser()
+parser.add_option("-u", "--url", dest="s_url", default=None, 
+                  help="URL to be checked by Exchange IBM Xforce", metavar="scanurl")
+parser.add_option("-m", "--malware", dest="m_url", default=None, 
+                  help="Malware to be checked by Exchange IBM Xforce", metavar="scanurl")
+parser.add_option("-f", "--file", dest="malfile" , default=None,
+                  help="file (md5 hash) to be checked by Exchange IBM Xforce", metavar="filename")
+parser.add_option("-i", "--init", dest="initb" , default=None,
+                  help="get token", metavar="filename")
+
+
+(options, args) = parser.parse_args()
+
+
+HOMEfolder = os.path.dirname(os.path.realpath(__file__))
+
+url = "https://xforce-api.mybluemix.net:443"
+
+if os.path.isfile("./token"):
+	tokenf = open(HOMEfolder + "/token","r")
+	token = tokenf.readline()
+else:
+	get_token()
+	tokenf = open(HOMEfolder + "/token","r")
+	token = tokenf.readline()
+
+if ( options.s_url is not None ):
+	apiurl = url + "/url/"
+	scanurl = options.s_url
+	send_request(apiurl, scanurl, token)
+elif ( options.m_url is not None ):
+	apiurl = url + "/url/malware/" 
+	scanurl = options.m_url
+	send_request(apiurl, scanurl, token)
+elif (options.malfile is not None ):
+	send_md5(malfile, url+"/malware/", token)	
+
