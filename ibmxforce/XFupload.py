@@ -10,7 +10,8 @@ import os.path
 
 def send_request(url, scanurl, token):
 	try:
-		furl = url + scanurl
+		furl = url + urllib.quote(scanurl)
+		print furl
 		htoken = "Bearer "+ token
 		headers = {'Authorization': htoken,}
 		request = urllib2.Request(furl, None, headers)
@@ -32,12 +33,14 @@ def get_token():
 
 def send_md5(filename, url, token):
 	try:
-		md5 = hashlib.md5(filename.hexdigest())
+		f = open(filename,"rb")
+		md5 = hashlib.md5((f).read()).hexdigest()
 		furl = url + md5
-		request = urllib2.Request(furl)
-		htoken = "BEARER "+ token
-		request.add_header('credentials', htoken)
+		htoken = "Bearer "+ token
+		headers = {'Authorization': htoken,}
+		request = urllib2.Request(furl, None, headers)
 		data = urllib2.urlopen(request)
+		print data.read()
 		return 1
 	except  urllib2.HTTPError, e:
 		print str(e)
@@ -78,5 +81,5 @@ elif ( options.m_url is not None ):
 	scanurl = options.m_url
 	send_request(apiurl, scanurl, token)
 elif (options.malfile is not None ):
-	send_md5(malfile, url+"/malware/", token)	
+	send_md5(options.malfile, url+"/malware/", token)	
 
