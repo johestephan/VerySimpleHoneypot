@@ -16,11 +16,13 @@ def send_request(url, scanurl, token):
 		headers = {'Authorization': htoken,}
 		request = urllib2.Request(furl, None, headers)
 		data = urllib2.urlopen(request)
-		print data.read()
+		print json.dumps(json.loads(data.read()), sort_keys=True, indent=3, separators=(',', ': '))
 		return 1
 	except urllib2.HTTPError, e:
 		print str(e)
 		return 0
+
+
 
 def get_token():
 	url = "https://xforce-api.mybluemix.net:443/auth/anonymousToken"
@@ -53,8 +55,8 @@ parser.add_option("-m", "--malware", dest="m_url", default=None,
                   help="Malware to be checked by Exchange IBM Xforce", metavar="scanurl")
 parser.add_option("-f", "--file", dest="malfile" , default=None,
                   help="file (md5 hash) to be checked by Exchange IBM Xforce", metavar="filename")
-parser.add_option("-i", "--init", dest="initb" , default=None,
-                  help="get token", metavar="filename")
+parser.add_option("-x", "--xfid", dest="s_xfid" , default=None,
+                  help="XFID to be used ", metavar="xfid")
 
 
 (options, args) = parser.parse_args()
@@ -81,5 +83,8 @@ elif ( options.m_url is not None ):
 	scanurl = options.m_url
 	send_request(apiurl, scanurl, token)
 elif (options.malfile is not None ):
-	send_md5(options.malfile, url+"/malware/", token)	
+	send_md5(options.malfile, url+"/malware/", token)
+elif (options.s_xfid is not None ):
+	send_request(url+"/vulnerabilities/", options.s_xfid, token)
+	
 
