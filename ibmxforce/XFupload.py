@@ -57,7 +57,8 @@ parser.add_option("-f", "--file", dest="malfile" , default=None,
                   help="file (md5 hash) to be checked by Exchange IBM Xforce", metavar="filename")
 parser.add_option("-x", "--xfid", dest="s_xfid" , default=None,
                   help="XFID to be used ", metavar="xfid")
-
+parser.add_option("-c", "--cve", dest="s_cve" , default=None,
+                  help="CVE, BID, US-Cert, UV#, RHSA id to be searched ", metavar="cve-xxx-xxx")
 
 (options, args) = parser.parse_args()
 
@@ -81,6 +82,10 @@ if ( options.s_url is not None ):
 elif ( options.m_url is not None ):
 	apiurl = url + "/url/malware/" 
 	scanurl = options.m_url
+	send_request(apiurl, scanurl, token)
+elif ( options.s_cve is not None ):
+	apiurl = url + "/vulnerabilities/search/" 
+	scanurl = options.s_cve
 	send_request(apiurl, scanurl, token)
 elif (options.malfile is not None ):
 	send_md5(options.malfile, url+"/malware/", token)
