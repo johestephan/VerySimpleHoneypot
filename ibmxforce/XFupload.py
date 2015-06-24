@@ -59,6 +59,8 @@ parser.add_option("-x", "--xfid", dest="s_xfid" , default=None,
                   help="XFID to be used ", metavar="xfid")
 parser.add_option("-c", "--cve", dest="s_cve" , default=None,
                   help="CVE, BID, US-Cert, UV#, RHSA id to be searched ", metavar="cve-xxx-xxx")
+parser.add_option("-i", "--ip", dest="s_ip" , default=None,
+                  help="ip to be checked", metavar="ipaddress")
 
 (options, args) = parser.parse_args()
 
@@ -87,6 +89,14 @@ elif ( options.s_cve is not None ):
 	apiurl = url + "/vulnerabilities/search/" 
 	scanurl = options.s_cve
 	send_request(apiurl, scanurl, token)
+elif (options.s_ip is not None):
+	scanurl = options.s_ip
+	apiurl = url + "/ipr/"
+	send_request(apiurl, scanurl, token)
+	apiurl = url + "/ipr/history/"
+        send_request(apiurl, scanurl, token)
+	apiurl = url + "/ipr/malware/"
+        send_request(apiurl, scanurl, token)
 elif (options.malfile is not None ):
 	send_md5(options.malfile, url+"/malware/", token)
 elif (options.s_xfid is not None ):
