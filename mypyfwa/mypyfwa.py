@@ -29,7 +29,6 @@ def logit(data):
 	except:
 		return 0
 
-
 def GETcheck(request, IP, CC):
     try:
 	weightcounter = request.count("/")
@@ -53,7 +52,7 @@ def GETanalyzer(request, line, IP, CC):
 	weightcounter = 0
 	weightcounter2 = 0
 	infectionlist1 = ["select","union","from","where","join"]
-	infectionlist2 = ["echo","wget","curl"]
+	infectionlist2 = ["echo","wget","curl","bash"]
 	for rule in infectionlist1:
 	    imatch = re.search(rule,request)
 	    if imatch is not None:
@@ -153,7 +152,11 @@ else:
 	source = sys.stdin
 
 for line in source:
-    IP = line.split()[options.IPpos] # May need to be adjust, default 0 should work, combined is 1
+    # using a combined log line via regex
+    #line = '172.16.0.3 - - [25/Sep/2002:14:04:19 +0200] "GET / HTTP/1.1" 401 - "" "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.1) Gecko/20020827"'
+    regex = '([(\d\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d+) "(.*?)" "(.*?)"'
+    dataset = re.match(regex, line)
+    IP = dataset.groups()[0]
     match = geolite2.lookup(IP)
     if match is not None:
 	CC = str(match.country)
@@ -162,7 +165,7 @@ for line in source:
    
     iires = re.search(whitelist,IP) 
     if ( iires is None ) :
-	Request = line.split('"')[1].lower()
+	Request = dataset.groups()[2]
     	headercounter += HEADERanalyzer(line, IP, CC)
     	injectcounter += GETanalyzer(Request, line,  IP, CC)
     	getcounter += GETcheck(Request, IP, CC)  
