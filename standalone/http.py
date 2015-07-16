@@ -21,11 +21,16 @@ while True:
     try:
         msg = ""
         con,addy = sock.accept()
-        #xf = addy[0] + " -- " + IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
+        xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
         data = con.recv(8192) # receive maximum 8K data
         dataarray = data.split('\n')
-        syslogit.logit("http",','.join(dataarray))
-        print mypyfwa.GETcheck(dataarray[0],addy[0])
-        con.sendall('HTTP/1.1 301 Moved Permanently')
+	rawf = open('/var/log/smsids_raw.log','a')
+        rawf.writeline(xf)
+	rawf.write(data)
+	rawf.close()
+        ters = mypyfwa.GETcheck(dataarray[0],addy[0])
+        syslogit.logit("http",' -- '.join(ters))
+        con.send(r'''HTTP/1.0 200 OK 
+		   Content-Type: text/plain''')
     except:
         continue 
