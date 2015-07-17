@@ -16,7 +16,7 @@ import ssl
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-serveaddy = ('0.0.0.0', 2345)
+serveaddy = ('0.0.0.0', 443)
 sock.bind(serveaddy)
 sock.listen(1)
 
