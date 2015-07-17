@@ -33,15 +33,13 @@ def GETcheck(request, IP, CC=None):
     try:
 	weightcounter = request.count("/")
 	if weightcounter > 7:
-		print str(datetime.datetime.now()) + " " + request + " RecursiveCounter: " + str(weightcounter) + " Blocked: " + IP
-                ret = [str(datetime.datetime.now()),IP,request,"Path"] 
+                ret = [IP,request,"Path"] 
 		return ret
 	elif len(request) > 60:
-		print str(datetime.datetime.now()) + " " + request + " LenCounter: " + str(weightcounter) + " Blocked: " + IP
-                ret = [str(datetime.datetime.now()),IP, request,"Length"] 
+                ret = [IP, request,"Length"] 
                 return ret
 	else:
-		return [str(datetime.datetime.now()), IP, request, "None"]
+		return [IP, request, "None"]
     except:
 	print "Unexpected error (GET_recursive):", sys.exc_info()[0]
         return ["Error","None"]
