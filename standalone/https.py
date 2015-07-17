@@ -29,9 +29,8 @@ while True:
                                 certfile="certificate.crt",
                                 keyfile="privateKey.key",
                                 ssl_version=ssl.PROTOCOL_SSLv23)
-        xf = "test" #IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
+        xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
 	data = connstream.read() # receive maximum 8K data
-	print data
 	dataarray = data.split('\n')
         rawf = open('/var/log/smsids_raw.log','a')
         ts = time.time()
