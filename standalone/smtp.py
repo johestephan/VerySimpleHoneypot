@@ -66,14 +66,6 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	if ( i is None):
 		# Creating timestamp now, this represents ID and filename
 		Now=time.time()
-		filename= "./tmp/"+ str(Now) + ".msg"
-		outfile = open(filename,"w")
-		outfile.write(data)
-		# standard console output
-		# includes some basic features which are also written to sqlite
-  		print 'ID		      ', Now
-		print 'Timestamp	      ', time.strftime('%X %x %Z')
-        	print 'Receiving message from:', peer[0]
         	match = geolite2.lookup(peer[0])
 		# GeoIP return must be check against None. Cause local IP addresses would cause an NoneObject Type and crash
 		# the script.
@@ -84,13 +76,6 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 
 		print 'Country		: ', Country
 
-		print 'Message addressed from:', mailfrom
-        	print 'Message addressed to  :', rcpttos[0]
-        	print 'Message length        :', len(data)
-		# clamav scan
-		ret = clamalyze(data) 
-		print 'clamav		     :', ret
-	
 		# Open sqlite db file and send data to it
 		# Values are like
 		# ID - represented via Unix-Timestamp
@@ -106,7 +91,6 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		# ClamAv return - what ClamAV has found
 		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
 		logrow = ( peer[0], Country, str(mailfrom),str(rcpttos[0]),str(len(data)),ret[1], filename) 
-		print 'Logged?		:', logit(logrow)
 		return
 
 parser = OptionParser()
