@@ -18,7 +18,6 @@ from optparse import OptionParser
 import sys
 import smtpd
 import asyncore
-import sqlite3
 import time
 import pyclamd
 from geoip import geolite2
@@ -26,23 +25,6 @@ import re
 sys.path.append('../modules/')
 import syslogit
 
-def logit(data):
-	# function to log to sqlite db
-	#
-	try:
-
-		if (options.syslog):
-			syslogit.logit("smtp", data)
-		else:
-			# logging to sqlite3
-			conn = sqlite3.connect('./smsids.db')
-			conn.execute(''' INSERT INTO log VALUES (?,?,?,?,?,?,?,?,?,?,?); ''', data) 
-			conn.commit()
-			conn.close()
-
-		return 1
-	except:
-		return 0
 		
 def clamalyze(data):
 	# function to handle check for malware
@@ -74,8 +56,6 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		else:
 			Country = 'Unknown'
 
-		print 'Country		: ', Country
-
 		# Open sqlite db file and send data to it
 		# Values are like
 		# ID - represented via Unix-Timestamp
@@ -90,20 +70,19 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 		# ClamAv return - what ClamAV has found
 		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
-		logrow = ( peer[0], Country, str(mailfrom),str(rcpttos[0]),str(len(data)),ret[1], filename) 
+                logrow = ( peer[0], Country, str(mailfrom),str(rcpttos[0]),str(len(data)),data)
+		rawf = open('/var/log/smsids_raw.log','a')
+		rawf.write('\n'.join(logrow))
+		rawf.close()
+		syslogit.logit("smtp", data)
 		return
 
 parser = OptionParser()
 parser.add_option("-p", "--port", dest="port",
 		  help="which port should be used , default 25", type=int, metavar="PORT", default=25)
-parser.add_option("-l", "--logging",action="store_false", default=True, dest="syslog",
-		  help="if set, old sqlite logging is used")
-
 
 (options, args) = parser.parse_args()
 
-
-print 'Server ready for connections...'
 server = IDS_SMTPServer(('0.0.0.0', options.port), None)
 
 asyncore.loop()
