@@ -19,7 +19,7 @@ print 'started https with pid = ', https.pid
 smtp = subprocess.Popen("python smtp.py -p 25", shell = True)
 print 'started smtp with pid = ', smtp.pid
 telnet = subprocess.Popen("python telnet.py", shell = True)
-print 'started smtp with pid = ', telnet.pid
+print 'started telnet with pid = ', telnet.pid
 
 
 
