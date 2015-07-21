@@ -24,6 +24,7 @@ from geoip import geolite2
 import re
 sys.path.append('../modules/')
 import syslogit
+import IXFcheckMod
 
 		
 def clamalyze(data):
@@ -48,13 +49,6 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 	if ( i is None):
 		# Creating timestamp now, this represents ID and filename
 		Now=time.time()
-        	match = geolite2.lookup(peer[0])
-		# GeoIP return must be check against None. Cause local IP addresses would cause an NoneObject Type and crash
-		# the script.
-		if match is not None:
-			Country = match.country
-		else:
-			Country = 'Unknown'
 
 		# Open sqlite db file and send data to it
 		# Values are like
@@ -70,7 +64,8 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 		# ClamAv return - what ClamAV has found
 		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
-                logrow = ( peer[0], Country, str(mailfrom),str(rcpttos[0]),str(len(data)),data)
+		xf = IXFcheckMod.get_ip_intel_artillery_strip(peer[0])
+                logrow = ( str(xf), str(mailfrom),str(rcpttos[0]),str(len(data)),data)
 		rawf = open('/var/log/smsids_raw.log','a')
 		rawf.write('\n'.join(logrow))
 		rawf.close()
