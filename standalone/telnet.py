@@ -29,9 +29,9 @@ while True:
         login = con.recv(20) # receive maximum 8K data
 	con.send("password:")
         password = con.recv(20) # receive maximum 8K data
-	con.send("\n\nCISCO-857#")
+	con.send("\n\nCISCO-857# ")
 	data = con.recv(8192)
-	data += "User: " + login +"\nPass: " + password + "\n"
+	data += "User: " + login.strip() +"\nPass: " + password.strip() + "\n"
         dataarray = data.split('\n')
 	rawf = open('/var/log/smsids_raw.log','a')
 	ts = time.time()
