@@ -23,7 +23,7 @@ while True:
     try:
         msg = ""
         con,addy = sock.accept()
-        xf = "test" #IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
+        xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
 	con.send("\n\nUser Access verification\n\n")
 	con.send("login:")
         login = con.recv(20) # receive maximum 8K data
