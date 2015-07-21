@@ -15,7 +15,7 @@ import time
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-serveaddy = ('0.0.0.0', 25)
+serveaddy = ('0.0.0.0', 23)
 sock.bind(serveaddy)
 sock.listen(1)
 
