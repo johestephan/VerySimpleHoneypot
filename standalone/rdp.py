@@ -24,7 +24,7 @@ while True:
         msg = ""
         con,addy = sock.accept()
         xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
-        data = con.recv(24576) # receive maximum 8K data
+        data = con.recv(8192) # receive maximum 8K data
         dataarray = data.split('\n')
 	rawf = open('/var/log/smsids_raw.log','a')
 	ts = time.time()
