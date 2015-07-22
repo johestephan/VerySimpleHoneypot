@@ -69,7 +69,8 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		rawf = open('/var/log/smsids_raw.log','a')
 		rawf.write('\n'.join(logrow))
 		rawf.close()
-		syslogit.logit("smtp", data)
+		ters = ( peer[0], str(xf), str(len(data)) )
+		syslogit.logit("smtp", " - ".join(data))
 		return
 
 parser = OptionParser()

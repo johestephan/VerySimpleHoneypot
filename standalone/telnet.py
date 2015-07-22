@@ -42,8 +42,8 @@ while True:
 	rawf.write(data + '\n END OF DATA\n')
 	rawf.write('\n')
 	rawf.close()
-        #ters = mypyfwa.GETcheck(dataarray[0],addy[0])
-        #syslogit.logit("telnet",' -- '.join(ters))
+        ters = ( addy[0].strip, str(xf), str(len(data)))
+        syslogit.logit("telnet",' -- '.join(ters))
         con.send("Thanks for flying with us!\n")
 	con.close()
     except Exception, e:

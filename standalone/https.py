@@ -41,7 +41,7 @@ while True:
         rawf.write(data + '\n END OF DATA\n')
         rawf.write('\n')
         rawf.close()
-        ters = mypyfwa.GETcheck(dataarray[0],addy[0])
+        ters =  (addy[0].strip(), str(xf), str(len(data)))
         syslogit.logit("https",' -- '.join(ters))
         connstream.write("HTTP/1.1 200 OK\n"
          +"Content-Type: text/html\n"
