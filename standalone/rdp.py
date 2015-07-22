@@ -36,8 +36,8 @@ while True:
 	rawf.write('\n')
 	rawf.close()
         # ters = mypyfwa.GETcheck(dataarray[0],addy[0])
-        ters = (addy[0].strip(), " against RDP ", str(len(data)), "of length")
-        syslogit.logit("rdp",' - '.join(ters))
+        ters = (addy[0].strip(), str((len(data)))
+        syslogit.logit("RDP", ters)
         con.send("Thanks for flying with us")
 	con.close()
     except Exception, e:

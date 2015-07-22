@@ -41,8 +41,8 @@ while True:
         rawf.write(data + '\n END OF DATA\n')
         rawf.write('\n')
         rawf.close()
-        ters = (addy[0].strip(), " against HTTPS ", str(len(data)), "of length")
-        syslogit.logit("https",' -- '.join(ters))
+        ters = (addy[0].strip(), str(len(data)))
+        syslogit.logit("HTTPS", ters)
         connstream.write("HTTP/1.1 200 OK\n"
          +"Content-Type: text/html\n"
          +"\n" # Important!
