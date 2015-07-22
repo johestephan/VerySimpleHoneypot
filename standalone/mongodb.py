@@ -36,7 +36,7 @@ while True:
 	rawf.write('\n')
 	rawf.close()
         # ters = mypyfwa.GETcheck(dataarray[0],addy[0])
-	ters = (addy[0].strip(), str(xf), str(len(data))) 
+        ters = (addy[0].strip(), " against MONGODB ", str(len(data)), "of length")
         syslogit.logit("mongodb",' - '.join(ters))
         con.send("Thanks for flying with us")
 	con.close()

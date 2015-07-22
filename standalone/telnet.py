@@ -42,7 +42,7 @@ while True:
 	rawf.write(data + '\n END OF DATA\n')
 	rawf.write('\n')
 	rawf.close()
-        ters = ( addy[0].strip(), str(xf), str(len(data)))
+        ters = (addy[0].strip(), " against Telnet ", str(len(data)), "of length")
         syslogit.logit("telnet",' -- '.join(ters))
         con.send("Thanks for flying with us!\n")
 	con.close()
