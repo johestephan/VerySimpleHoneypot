@@ -23,8 +23,8 @@ while True:
     try:
         msg = ""
         con,addy = sock.accept()
-        xf = "test" #IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
-        data = con.recv(8192) # receive maximum 8K data
+        xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
+        data = con.recv(24576) # receive maximum 8K data
         dataarray = data.split('\n')
 	rawf = open('/var/log/smsids_raw.log','a')
 	ts = time.time()
@@ -36,7 +36,7 @@ while True:
 	rawf.write('\n')
 	rawf.close()
         # ters = mypyfwa.GETcheck(dataarray[0],addy[0])
-        ters = (addy[0].strip(), str((len(data)))
+        ters = (addy[0].strip(), str((len(data))))
         syslogit.logit("RDP", ters)
         con.send("Thanks for flying with us")
 	con.close()
