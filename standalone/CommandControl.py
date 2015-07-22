@@ -20,6 +20,10 @@ smtp = subprocess.Popen("python smtp.py -p 25", shell = True)
 print 'started smtp with pid = ', smtp.pid
 telnet = subprocess.Popen("python telnet.py", shell = True)
 print 'started telnet with pid = ', telnet.pid
+mongodb = subprocess.Popen("python mongodb.py", shell = True)
+print 'started mongodb with pid = ', mongodb.pid
+rdp = subprocess.Popen("python rdp.py", shell = True)
+print 'started rdp with pid = ', rdp.pid
 
 
 
@@ -38,6 +42,14 @@ if keystroke is "Y" or keystroke is "y":
         print "shutting down telnet"
         killchilds(telnet.pid)
         telnet.terminate()
+        print "shutting down mongodb"
+        killchilds(mongodb.pid)
+        mongodb.terminate()
+        telnet.terminate()
+        print "shutting down rdp"
+        killchilds(rdp.pid)
+        rdp.terminate()
+
 
 
 sys.exit
