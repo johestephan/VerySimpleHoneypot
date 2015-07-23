@@ -23,11 +23,11 @@ print 'started telnet with pid = ', telnet.pid
 mongodb = subprocess.Popen("python mongodb.py", shell = True)
 print 'started mongodb with pid = ', mongodb.pid
 msds = subprocess.Popen("python microsoft-ds.py", shell = True)
-print 'started rdp with pid = ', msds.pid
+print 'started Microsoft-DS with pid = ', msds.pid
 rdp = subprocess.Popen("python rdp.py", shell = True)
 print 'started rdp with pid = ', rdp.pid
 mssql = subprocess.Popen("python microsoft-sql.py", shell = True)
-print 'started rdp with pid = ', mssql.pid
+print 'started Microsoft-SQL with pid = ', mssql.pid
 
 
 
