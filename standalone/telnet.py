@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# simple HTTP Server
+# simple TELNET Server
 # as Part of SendMeSpamIDS
 
 import socket
@@ -36,6 +36,7 @@ while True:
 	rawf = open('/var/log/smsids_raw.log','a')
 	ts = time.time()
 	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        rawf.write('BEGIN OF TELNET DATA:\n')
 	rawf.write(st +'\n')
 	rawf.write('Source IP: '+ addy[0] +'\n')
         rawf.write(xf +'\n')

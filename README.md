@@ -33,4 +33,5 @@ Currently including
 * TELNET
 * MONGODB (alpha state)
 * RDP (alpha state)
-
+* Microsoft DS (alpha state)
+* Microsoft SQL (alpha state)
