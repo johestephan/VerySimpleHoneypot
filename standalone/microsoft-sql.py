@@ -38,7 +38,7 @@ while True:
 	rawf.close()
         # ters = mypyfwa.GETcheck(dataarray[0],addy[0])
 	ters = (addy[0].strip() , str(len(data))) 
-        syslogit.logit("MS-SQL", ters)
+        syslogit.logit("MSSQL", ters)
         con.send("Thanks for flying with us!")
 	con.close()
     except Exception, e:
