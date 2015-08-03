@@ -72,7 +72,7 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		rawf.write('END OF DATA\n')
 		rawf.close()
 		ters = ( peer[0], str(xf), str(len(data)) )
-		syslogit.logit("smtp", data)
+		syslogit.logit("smtp", ters)
 		return
 
 parser = OptionParser()
