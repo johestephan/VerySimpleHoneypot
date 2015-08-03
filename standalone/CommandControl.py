@@ -28,6 +28,8 @@ rdp = subprocess.Popen("python rdp.py", shell = True)
 print 'started rdp with pid = ', rdp.pid
 mssql = subprocess.Popen("python microsoft-sql.py", shell = True)
 print 'started Microsoft-SQL with pid = ', mssql.pid
+ftp = subprocess.Popen("python ftp.py", shell = True)
+print 'started FTP with pid = ', ftp.pid
 
 
 
@@ -59,6 +61,10 @@ if keystroke is "Y" or keystroke is "y":
         print "shutting down ms-sql"
         killchilds(mssql.pid)
         mssql.terminate()
+        print "shutting down ftp"
+        killchilds(ftp.pid)
+        ftp.terminate()
+
 
 
 
