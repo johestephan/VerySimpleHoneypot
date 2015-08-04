@@ -31,7 +31,7 @@ print 'started Microsoft-SQL with pid = ', mssql.pid
 ftp = subprocess.Popen("python ftp.py", shell = True)
 print 'started FTP with pid = ', ftp.pid
 dns = subprocess.Popen("python dns.py", shell = True)
-print 'started FTP with pid = ', dns.pid
+print 'started DNS with pid = ', dns.pid
 
 
 
