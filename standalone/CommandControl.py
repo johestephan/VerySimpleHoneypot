@@ -30,8 +30,10 @@ mssql = subprocess.Popen("python microsoft-sql.py", shell = True)
 print 'started Microsoft-SQL with pid = ', mssql.pid
 ftp = subprocess.Popen("python ftp.py", shell = True)
 print 'started FTP with pid = ', ftp.pid
-dns = subprocess.Popen("python dns.py", shell = True)
-print 'started DNS with pid = ', dns.pid
+#dns = subprocess.Popen("python dns.py", shell = True)
+#print 'started DNS with pid = ', dns.pid
+#fakeeigthy = subprocess.Popen("python 8080.py", shell = True)
+#print 'started 8080 with pid = ', fakeeigthy.pid
 
 
 
@@ -66,9 +68,13 @@ if keystroke is "Y" or keystroke is "y":
         print "shutting down ftp"
         killchilds(ftp.pid)
         ftp.terminate()
-        print "shutting down dns"
-        killchilds(dns.pid)
-        dns.terminate()
+#        print "shutting down dns"
+#        killchilds(dns.pid)
+#        dns.terminate()
+#        print "shutting down fake 8080"
+#        killchilds(fakeeigthy.pid)
+#        fakeeigthy.terminate()
+
 
 
 
