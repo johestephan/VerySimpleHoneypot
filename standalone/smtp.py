@@ -66,7 +66,7 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
 		xf = IXFcheckMod.get_ip_intel_artillery_strip(peer[0])
                 logrow = ( peer[0], str(xf), str(mailfrom),str(rcpttos[0]),str(len(data)),data, "End of Data")
-		rawf = open('/var/log/smsids_raw.log','a')
+		rawf = open('/var/log/smsids_mail.log','a')
 		rawf.write('BEGIN OF SMTP DATA\n')
 		rawf.write('\n'.join(logrow))
 		rawf.write('END OF DATA\n')
