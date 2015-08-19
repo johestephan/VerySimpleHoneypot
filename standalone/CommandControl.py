@@ -22,18 +22,18 @@ telnet = subprocess.Popen("python telnet.py", shell = True)
 print 'started telnet with pid = ', telnet.pid
 mongodb = subprocess.Popen("python mongodb.py", shell = True)
 print 'started mongodb with pid = ', mongodb.pid
-msds = subprocess.Popen("python microsoft-ds.py", shell = True)
-print 'started Microsoft-DS with pid = ', msds.pid
-rdp = subprocess.Popen("python rdp.py", shell = True)
-print 'started rdp with pid = ', rdp.pid
-mssql = subprocess.Popen("python microsoft-sql.py", shell = True)
-print 'started Microsoft-SQL with pid = ', mssql.pid
+#msds = subprocess.Popen("python microsoft-ds.py", shell = True)
+#print 'started Microsoft-DS with pid = ', msds.pid
+#rdp = subprocess.Popen("python rdp.py", shell = True)
+#print 'started rdp with pid = ', rdp.pid
+#mssql = subprocess.Popen("python microsoft-sql.py", shell = True)
+#print 'started Microsoft-SQL with pid = ', mssql.pid
 ftp = subprocess.Popen("python ftp.py", shell = True)
 print 'started FTP with pid = ', ftp.pid
 #dns = subprocess.Popen("python dns.py", shell = True)
 #print 'started DNS with pid = ', dns.pid
-#fakeeigthy = subprocess.Popen("python 8080.py", shell = True)
-#print 'started 8080 with pid = ', fakeeigthy.pid
+tomcat = subprocess.Popen("python tomcat.py", shell = True)
+print 'started tomcat(8080) with pid = ', tomcat.pid
 
 
 
@@ -55,19 +55,21 @@ if keystroke is "Y" or keystroke is "y":
         print "shutting down mongodb"
         killchilds(mongodb.pid)
         mongodb.terminate()
-        telnet.terminate()
-        print "shutting down rdp"
-        killchilds(rdp.pid)
-        rdp.terminate()
-        print "shutting down ms-ds"
-        killchilds(msds.pid)
-        msds.terminate()
-        print "shutting down ms-sql"
-        killchilds(mssql.pid)
-        mssql.terminate()
-        print "shutting down ftp"
-        killchilds(ftp.pid)
-        ftp.terminate()
+        print "shutting down tomcat"
+        killchilds(tomcat.pid)
+        tomcat.terminate()
+	#print "shutting down rdp"
+        #killchilds(rdp.pid)
+        #rdp.terminate()
+        #print "shutting down ms-ds"
+        #killchilds(msds.pid)
+        #msds.terminate()
+        #print "shutting down ms-sql"
+        #killchilds(mssql.pid)
+        #mssql.terminate()
+        #print "shutting down ftp"
+        #killchilds(ftp.pid)
+        #ftp.terminate()
 #        print "shutting down dns"
 #        killchilds(dns.pid)
 #        dns.terminate()
