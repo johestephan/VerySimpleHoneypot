@@ -22,8 +22,8 @@ telnet = subprocess.Popen("python telnet.py", shell = True)
 print 'started telnet with pid = ', telnet.pid
 mongodb = subprocess.Popen("python mongodb.py", shell = True)
 print 'started mongodb with pid = ', mongodb.pid
-#msds = subprocess.Popen("python microsoft-ds.py", shell = True)
-#print 'started Microsoft-DS with pid = ', msds.pid
+oracle = subprocess.Popen("python oracle.py", shell = True)
+print 'started Oracle with pid = ', oracle.pid
 #rdp = subprocess.Popen("python rdp.py", shell = True)
 #print 'started rdp with pid = ', rdp.pid
 #mssql = subprocess.Popen("python microsoft-sql.py", shell = True)
@@ -58,9 +58,9 @@ if keystroke is "Y" or keystroke is "y":
         print "shutting down tomcat"
         killchilds(tomcat.pid)
         tomcat.terminate()
-	#print "shutting down rdp"
-        #killchilds(rdp.pid)
-        #rdp.terminate()
+	print "shutting down oracle"
+        killchilds(oracle.pid)
+        oracle.terminate()
         #print "shutting down ms-ds"
         #killchilds(msds.pid)
         #msds.terminate()
