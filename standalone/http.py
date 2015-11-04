@@ -40,18 +40,12 @@ while True:
 	ters = (addy[0].strip() , str(len(data))) 
         syslogit.logit("HTTP", ters)
         con.send("HTTP/1.1 200 OK\n"
-         +'''Date: Wed, 04 Nov 2015 16:42:19 GMT
-Server: Apache/2.4.7 (Ubuntu)
-Last-Modified: Wed, 04 Nov 2015 16:10:16 GMT
-ETag: "cedc-523b93efdde53"
-Accept-Ranges: bytes
-Content-Length: 198
-Vary: Accept-Encoding
-Cache-Control: max-age=3600
-Expires: Wed, 04 Nov 2015 17:42:19 GMT
-Content-Type: text/html'''
-         +"\n" # Important!
-         +"<html><body>Wallistero.biz internal server - HTTPS only</body></html>\n");
+        + "Server: Apache/2.2.31 (Gentoo)"
+        + "Accept-Ranges: bytes"
+        + "Vary: Accept-Encoding"
+        + "Content-Type: text/html"
+        +"\n" # Important!
+        +"<html><body>Wallistero.biz internal server - HTTPS only</body></html>\n");
 	con.close()
     except Exception, e:
 	    print e
