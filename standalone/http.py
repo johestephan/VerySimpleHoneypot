@@ -24,7 +24,7 @@ while True:
         msg = ""
         con,addy = sock.accept()
         xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
-        data = con.recv(16000) # receive maximum 8K data
+        data = con.recv(16000) # receive maximum 16K data
         dataarray = data.split('\n')
 	rawf = open('/var/log/smsids_raw.log','a')
 	ts = time.time()
@@ -42,7 +42,7 @@ while True:
         con.send("HTTP/1.1 200 OK\n"
          +"Content-Type: text/html\n"
          +"\n" # Important!
-         +"<html><body>Hello World</body></html>\n");
+         +"<html><body>Wallistero.biz internal server - HTTPS only</body></html>\n");
 	con.close()
     except Exception, e:
-	print e
+	    print e

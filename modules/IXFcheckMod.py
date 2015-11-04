@@ -100,7 +100,7 @@ def get_ip_intel_artillery_strip(ip):
     jdata = send_request(apiurl, ip)
     asmalware = jdata['malware']
     #print json.dumps(jdata, sort_keys=True, indent=3, separators=(',', ': '))
-    return "Country: " + CountryCode + " RiskScore: " + str(iscore) + " Malware: " + str(asmalware)
+    return "Country: " + CountryCode + " RiskScore: " + str(iscore)
 
 
 def get_ip_intel(ip):
