@@ -30,7 +30,7 @@ while True:
                                 keyfile="privateKey.key",
                                 ssl_version=ssl.PROTOCOL_SSLv23)
         xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
-	data = connstream.read() # receive maximum 8K data
+	data = connstream.read() 
 	dataarray = data.split('\n')
         rawf = open('/var/log/smsids_raw.log','a')
         ts = time.time()
@@ -44,10 +44,10 @@ while True:
         rawf.close()
         ters = (addy[0].strip(), str(len(data)))
         syslogit.logit("HTTPS", ters)
-        connstream.write("HTTP/1.1 200 OK\n"
+        connstream.write("HTTP/1.1 401 Unauthorized\n"
          +"Content-Type: text/html\n"
          +"\n" # Important!
-         +"<html><body>Hello World</body></html>\n");
+         +"<html><body>Wallistero.biz internal server</body></html>\n");
         con.close()
     except Exception, e:
         print e
