@@ -45,7 +45,14 @@ while True:
         ters = (addy[0].strip(), str(len(data)))
         syslogit.logit("HTTPS", ters)
         connstream.write("HTTP/1.1 401 Unauthorized\n"
-         +"Content-Type: text/html\n"
+        + '''Server: Apache/2.2.31 (Gentoo)
+Last-Modified: Wed, 04 Nov 2015 16:10:16 GMT
+ETag: "cedc-523b93cefde53"
+Accept-Ranges: bytes
+Content-Length: 167
+Vary: Accept-Encoding
+Cache-Control: max-age=3600
+Content-Type: text/html'''
          +"\n" # Important!
          +"<html><body>Wallistero.biz internal server</body></html>\n");
         con.close()
