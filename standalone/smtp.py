@@ -64,8 +64,8 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		# filename - file the data was saved to (needed for clamav scan), format always /tmp/ID.txt
 		# ClamAv return - what ClamAV has found
 		#logrow = ( str(Now),time.strftime('%X %x %Z'), peer[0], peer[1], Country, mailfrom,rcpttos[0],str(len(data)),data,filename,ret[1]) 
-		xf = IXFcheckMod.get_ip_intel_artillery_strip(peer[0])
-                logrow = ( peer[0], str(xf), str(mailfrom),str(rcpttos[0]),str(len(data)),data, "End of Data")
+		#xf = IXFcheckMod.get_ip_intel_artillery_strip(peer[0])
+		logrow = ( peer[0], str("NONE"), str(mailfrom),str(rcpttos[0]),str(len(data)),data, "End of Data")
 		rawf = open('/var/log/smsids_mail.log','a')
 		rawf.write('BEGIN OF SMTP DATA\n')
 		rawf.write('\n'.join(logrow))

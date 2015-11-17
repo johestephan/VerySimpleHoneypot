@@ -29,7 +29,7 @@ while True:
                                 certfile="certificate.crt",
                                 keyfile="privateKey.key",
                                 ssl_version=ssl.PROTOCOL_SSLv23)
-        xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
+        #xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
 	data = connstream.read() 
 	dataarray = data.split('\n')
         rawf = open('/var/log/smsids_raw.log','a')
@@ -38,7 +38,7 @@ while True:
         rawf.write('BEGIN OF HTTPS DATA:\n')
         rawf.write(st +'\n')
         rawf.write('Source IP: '+ addy[0] +'\n')
-        rawf.write(xf +'\n')
+        #rawf.write(xf +'\n')
         rawf.write(data + '\n END OF DATA\n')
         rawf.write('\n')
         rawf.close()

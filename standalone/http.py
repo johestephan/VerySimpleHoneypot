@@ -23,7 +23,7 @@ while True:
     try:
         msg = ""
         con,addy = sock.accept()
-        xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
+        #xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
         data = con.recv(16000) # receive maximum 16K data
         dataarray = data.split('\n')
 	rawf = open('/var/log/smsids_raw.log','a')
@@ -32,7 +32,7 @@ while True:
 	rawf.write('BEGIN OF HTTP DATA:\n')
 	rawf.write(st +'\n')
 	rawf.write('Source IP: '+ addy[0] +'\n')
-        rawf.write(xf +'\n')
+    #rawf.write(xf +'\n')
 	rawf.write(data + '\n END OF DATA\n')
 	rawf.write('\n')
 	rawf.close()
