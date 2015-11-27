@@ -28,7 +28,7 @@ while True:
                                 server_side=True,
                                 certfile="certificate.crt",
                                 keyfile="privateKey.key",
-                                ssl_version=ssl.PROTOCOL_SSLv23)
+				ssl_version=ssl.PROTOCOL_SSLv23)
         #xf = IXFcheckMod.get_ip_intel_artillery_strip(addy[0])
 	data = connstream.read() 
 	dataarray = data.split('\n')
@@ -45,10 +45,8 @@ while True:
         ters = (addy[0].strip(), str(len(data)))
         syslogit.logit("HTTPS", ters)
         connstream.write("HTTP/1.1 401 Unauthorized\n"
-        + "Server: Apache/2.2.31 (Gentoo)"
-        + "Accept-Ranges: bytes"
-        + "Vary: Accept-Encoding"
-        + "Content-Type: text/html"
+        + "Server: Apache/2.2.31 (Gentoo)\n"
+        + "Content-Type: text/html\n"
          +"\n" # Important!
          +"<html><body>Wallistero.biz internal server</body></html>\n");
         con.close()

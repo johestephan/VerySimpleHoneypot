@@ -40,12 +40,12 @@ while True:
 	ters = (addy[0].strip() , str(len(data))) 
         syslogit.logit("HTTP", ters)
         con.send("HTTP/1.1 200 OK\n"
-        + "Server: Apache/2.2.31 (Gentoo)"
-        + "Accept-Ranges: bytes"
-        + "Vary: Accept-Encoding"
-        + "Content-Type: text/html"
+        + "Server: Apache/2.2.31 (Gentoo)\n"
+        + "Accept-Ranges: bytes\n"
+        + "Vary: Accept-Encoding\n"
+        + "Content-Type: text/html\n"
         +"\n" # Important!
-        +"<html><body>Wallistero.biz internal server - HTTPS only</body></html>\n");
+        +"<html><body>Wallistero.biz internal server - HTTPS only</body></html>\n")
 	con.close()
     except Exception, e:
 	    print e
