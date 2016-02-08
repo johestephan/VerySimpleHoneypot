@@ -72,6 +72,9 @@ class IDS_SMTPServer(smtpd.SMTPServer):
 		rawf.write('END OF DATA\n')
 		rawf.close()
 		ters = ( peer[0], str(len(data)) )
+		eml = open("/opt/mails/%s" % Now+".eml","wb")
+		eml.write(data)
+		eml.close()
 		syslogit.logit("smtp", ters)
 		return
 
