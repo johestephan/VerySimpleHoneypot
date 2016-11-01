@@ -9,7 +9,6 @@ import sys
 import re
 import datetime
 from optparse import OptionParser
-from geoip import geolite2
 import sqlite3
 sys.path.append('../modules/')
 import syslogit

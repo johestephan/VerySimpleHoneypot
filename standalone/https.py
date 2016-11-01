@@ -52,4 +52,5 @@ while True:
         con.close()
     except Exception, e:
         print e
+        continue
 

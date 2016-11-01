@@ -19,27 +19,10 @@ import sys
 import smtpd
 import asyncore
 import time
-import pyclamd
-from geoip import geolite2
 import re
 sys.path.append('../modules/')
 import syslogit
-import IXFcheckMod
-
 		
-def clamalyze(data):
-	# function to handle check for malware
-	# uses clamd and data as input stream
-	try:
-		clamd = pyclamd.ClamdAgnostic()
-		ret = clamd.scan_stream(data)['stream']
-		return ret
-	except pyclamd.ConnectionError:
-		print 'error connecting to clamd'
-	except:
-		return ('nope','nope')
-	
-
 class IDS_SMTPServer(smtpd.SMTPServer):
     
     def process_message(self, peer, mailfrom, rcpttos, data):
