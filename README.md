@@ -8,16 +8,13 @@ IDS for analyzing mail and apache data
 ## Modules needed
 * smtpd
 * asyncore
-* sqlite3 
 * time
-* pyclamd (needs clamav-daemon to be installed)
-* geolite2 (needs GeoIP to be installed)
 * logger
 * sys
 
 all modules are normally installed using pip, like
 
-pip install --upgrade pyclamd
+pip install --upgrade <name>
 
 ## Toolbox
 * added ./toolbox folder
