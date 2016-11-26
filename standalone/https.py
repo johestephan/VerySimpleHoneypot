@@ -8,7 +8,6 @@ import socket
 import sys
 sys.path.append('../modules/')
 import syslogit
-import IXFcheckMod
 import mypyfwa
 import datetime
 import time
