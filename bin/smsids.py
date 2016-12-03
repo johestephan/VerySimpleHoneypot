@@ -1,5 +1,3 @@
-import subprocess
-import os, signal
 import time
 import sys
 import psutil
@@ -8,18 +6,15 @@ sys.path.append("../lib/")
 import server as SC
 import responses as RE
 
-services = [["http", 8000, RE.http_200],
+services = [["http", 8000, RE.DLink_200],
 		["7547", 7547, RE.generic],
-		["telnet", 23, RE.generic]]
+		["telnet", 23, RE.generic],
+		["DLink_1", 52869, RE.generic]]
 
 pidSafe = {}
 
 process = {}
 
-#def killchilds(cpid):
-#	p = psutil.Process(cpid)
-#    child_pid = p.children(recursive=True)
-#	os.kill(child_pid[0].pid,9)
 
 def stop():
 	for service in process:
