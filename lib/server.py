@@ -16,7 +16,7 @@ def run(service, port, response=None):
         try:
             msg = ""
             con,addy = sock.accept()
-            data = con.recv(8192) # receive maximum 8K data
+            data = con.recv(16000) # receive maximum 8K data
             dataarray = data.split('\n')
             logit.log(service, addy[0], data)
             con.send(response)

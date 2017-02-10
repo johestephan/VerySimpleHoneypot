@@ -6,10 +6,12 @@ sys.path.append("../lib/")
 import server as SC
 import responses as RE
 
-services = [["http", 8000, RE.DLink_200],
-		["7547", 7547, RE.generic],
-		["telnet", 23, RE.generic],
-		["DLink_1", 52869, RE.generic]]
+services = [["http", 80, RE.DLink_200],
+		["TR069", 7547, RE.generic],
+		["snmp", 161, RE.generic],
+		["IRDMI", 8000, RE.generic],
+                ["esmgt", 5601, RE.generic],
+                ["FileNail", 4567, RE.generic]]
 
 pidSafe = {}
 
